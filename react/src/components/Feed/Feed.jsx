@@ -12,7 +12,14 @@ const Feed = () => {
     setLoading(true);
     try {
       const response = await getPosts();
-      setPosts(response.data);
+      
+      if (Array.isArray(response.data)) {
+        setPosts(response.data);
+      } else if (response.data && Array.isArray(response.data.results)) {
+        setPosts(response.data.results);
+      } else {
+        setPosts([]);
+      }
     } catch (err) {
       console.error('Error fetching posts:', err);
       setError('Не удалось загрузить ленту.');

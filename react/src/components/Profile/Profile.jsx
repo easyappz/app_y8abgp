@@ -18,13 +18,16 @@ const Profile = () => {
           const profileRes = await getUserProfile(id);
           setProfile(profileRes.data);
         }
-        // Fetch Friends (Functionality strictly for current user as per API typically, 
-        // but if we are viewing others, we might not see their friends unless API supports it)
-        // The default friends API is /api/friends/ (My friends).
-        // We'll just fetch "My" friends for now if visiting own profile logic matches, 
-        // or just leave it separate.
+        // Fetch Friends
         const friendsRes = await getFriends();
-        setFriends(friendsRes.data);
+        
+        if (Array.isArray(friendsRes.data)) {
+          setFriends(friendsRes.data);
+        } else if (friendsRes.data && Array.isArray(friendsRes.data.results)) {
+          setFriends(friendsRes.data.results);
+        } else {
+          setFriends([]);
+        }
       } catch (error) {
         console.error('Profile fetch failed:', error);
       } finally {
@@ -51,7 +54,6 @@ const Profile = () => {
               <div className="profile-bio">{profile.bio || 'Нет информации'}</div>
             </div>
           </div>
-          {/* Add Friend / Message buttons could go here */}
         </div>
       </div>
 
@@ -78,7 +80,6 @@ const Profile = () => {
         </div>
 
         <div className="main-content">
-          {/* Maybe user's posts here in future */}
           <div className="content-card">
             <p>Посты пользователя (в разработке)</p>
           </div>
