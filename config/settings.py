@@ -71,9 +71,14 @@ INSTALLED_APPS = [
     "api",
 ]
 
+AUTH_USER_MODEL = 'api.Member'
+
 # REST Framework configuration
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
 }
 
 # drf-spectacular configuration
