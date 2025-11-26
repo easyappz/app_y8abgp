@@ -6,7 +6,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 from .models import Member, Post, Comment, Like, FriendRequest
 from .serializers import (
-    MemberSerializer, RegisterSerializer, PostSerializer, 
+    MemberSerializer, PublicMemberSerializer, RegisterSerializer, PostSerializer, 
     CommentSerializer, SimpleUserSerializer
 )
 
@@ -48,11 +48,11 @@ class CurrentUserView(generics.RetrieveAPIView):
 
 class UserProfileView(generics.RetrieveAPIView):
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+    serializer_class = PublicMemberSerializer
     lookup_field = 'id'
 
 class UpdateProfileView(generics.UpdateAPIView):
-    serializer_class = MemberSerializer
+    serializer_class = PublicMemberSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):

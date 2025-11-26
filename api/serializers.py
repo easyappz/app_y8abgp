@@ -6,6 +6,11 @@ class MemberSerializer(serializers.ModelSerializer):
         model = Member
         fields = ['id', 'username', 'email', 'bio', 'avatar']
 
+class PublicMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = ['id', 'username', 'bio', 'avatar']
+
 class SimpleUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
@@ -13,10 +18,11 @@ class SimpleUserSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Member
-        fields = ['username', 'email', 'password']
+        fields = ['id', 'username', 'email', 'password']
 
     def create(self, validated_data):
         return Member.objects.create_user(**validated_data)
