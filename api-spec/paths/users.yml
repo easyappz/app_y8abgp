@@ -1,0 +1,72 @@
+paths:
+  /api/users/me/:
+    patch:
+      summary: Update current user profile
+      operationId: usersUpdateProfile
+      tags:
+        - Users
+      isSecure: true
+      security:
+        - cookieAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bio:
+                  type: string
+                avatar:
+                  type: string
+                  nullable: true
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  bio:
+                    type: string
+                  avatar:
+                    type: string
+                    nullable: true
+
+  /api/users/{id}/:
+    get:
+      summary: Get user profile
+      operationId: usersGetProfile
+      tags:
+        - Users
+      isSecure: false
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  bio:
+                    type: string
+                  avatar:
+                    type: string
+                    nullable: true
+        '404':
+          description: User not found

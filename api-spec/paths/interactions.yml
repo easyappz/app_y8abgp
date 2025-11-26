@@ -1,0 +1,109 @@
+paths:
+  /api/posts/{id}/like/:
+    post:
+      summary: Toggle like on a post
+      operationId: interactionsLikeToggle
+      tags:
+        - Interactions
+      isSecure: true
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Like toggled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  liked:
+                    type: boolean
+                  likes_count:
+                    type: integer
+        '404':
+          description: Post not found
+
+  /api/posts/{id}/comments/:
+    get:
+      summary: List comments for a post
+      operationId: interactionsCommentsList
+      tags:
+        - Interactions
+      isSecure: false
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    content:
+                      type: string
+                    author:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        username:
+                          type: string
+                    created_at:
+                      type: string
+                      format: date-time
+    post:
+      summary: Add a comment to a post
+      operationId: interactionsCommentsCreate
+      tags:
+        - Interactions
+      isSecure: true
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        '201':
+          description: Comment added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  content:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time

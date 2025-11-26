@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: Social Network API
+  version: 1.0.0
+  description: API for a social network application with Django and React.
+servers:
+  - url: http://localhost:8000
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+paths:
+  /api/auth/register/:
+    $ref: './paths/auth.yml#/paths/~1api~1auth~1register~1'
+  /api/auth/login/:
+    $ref: './paths/auth.yml#/paths/~1api~1auth~1login~1'
+  /api/auth/logout/:
+    $ref: './paths/auth.yml#/paths/~1api~1auth~1logout~1'
+  /api/auth/user/:
+    $ref: './paths/auth.yml#/paths/~1api~1auth~1user~1'
+
+  /api/posts/:
+    $ref: './paths/posts.yml#/paths/~1api~1posts~1'
+  /api/posts/{id}/:
+    $ref: './paths/posts.yml#/paths/~1api~1posts~1{id}~1'
+
+  /api/posts/{id}/like/:
+    $ref: './paths/interactions.yml#/paths/~1api~1posts~1{id}~1like~1'
+  /api/posts/{id}/comments/:
+    $ref: './paths/interactions.yml#/paths/~1api~1posts~1{id}~1comments~1'
+
+  /api/users/me/:
+    $ref: './paths/users.yml#/paths/~1api~1users~1me~1'
+  /api/users/{id}/:
+    $ref: './paths/users.yml#/paths/~1api~1users~1{id}~1'
+
+  /api/friends/:
+    $ref: './paths/friends.yml#/paths/~1api~1friends~1'
+  /api/friends/request/:
+    $ref: './paths/friends.yml#/paths/~1api~1friends~1request~1'
+  /api/friends/{id}/accept/:
+    $ref: './paths/friends.yml#/paths/~1api~1friends~1{id}~1accept~1'

@@ -1,0 +1,99 @@
+paths:
+  /api/posts/:
+    get:
+      summary: List posts
+      operationId: postsList
+      tags:
+        - Posts
+      isSecure: false
+      security: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of posts
+          content:
+            application/json:
+              schema:
+                type: Array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    content:
+                      type: string
+                    author:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        username:
+                          type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    likes_count:
+                      type: integer
+                    comments_count:
+                      type: integer
+    post:
+      summary: Create a post
+      operationId: postsCreate
+      tags:
+        - Posts
+      isSecure: true
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  content:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+
+  /api/posts/{id}/:
+    delete:
+      summary: Delete a post
+      operationId: postsDelete
+      tags:
+        - Posts
+      isSecure: true
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Post deleted
+        '403':
+          description: Not authorized to delete this post
+        '404':
+          description: Post not found

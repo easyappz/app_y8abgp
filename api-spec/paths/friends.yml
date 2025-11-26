@@ -1,0 +1,73 @@
+paths:
+  /api/friends/:
+    get:
+      summary: List friends
+      operationId: friendsList
+      tags:
+        - Friends
+      isSecure: true
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: List of friends
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    username:
+                      type: string
+  
+  /api/friends/request/:
+    post:
+      summary: Send friend request
+      operationId: friendsRequest
+      tags:
+        - Friends
+      isSecure: true
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: ID of the user to befriend
+              required:
+                - user_id
+      responses:
+        '201':
+          description: Request sent
+        '400':
+          description: Invalid request or already sent
+
+  /api/friends/{id}/accept/:
+    post:
+      summary: Accept friend request
+      operationId: friendsAccept
+      tags:
+        - Friends
+      isSecure: true
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID of the user whose request is being accepted
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Friend request accepted
+        '404':
+          description: Request not found

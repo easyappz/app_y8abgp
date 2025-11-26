@@ -1,0 +1,121 @@
+paths:
+  /api/auth/register/:
+    post:
+      summary: Register a new user
+      operationId: authRegister
+      tags:
+        - Auth
+      isSecure: false
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+                  format: email
+              required:
+                - username
+                - password
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  email:
+                    type: string
+        '400':
+          description: Validation error
+
+  /api/auth/login/:
+    post:
+      summary: Login user
+      operationId: authLogin
+      tags:
+        - Auth
+      isSecure: false
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+        '401':
+          description: Invalid credentials
+
+  /api/auth/logout/:
+    post:
+      summary: Logout user
+      operationId: authLogout
+      tags:
+        - Auth
+      isSecure: true
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Logout successful
+
+  /api/auth/user/:
+    get:
+      summary: Get current logged in user
+      operationId: authCurrentUser
+      tags:
+        - Auth
+      isSecure: true
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Current user details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  bio:
+                    type: string
+                  avatar:
+                    type: string
+                    nullable: true
+        '403':
+          description: Not authenticated
